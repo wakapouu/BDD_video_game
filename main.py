@@ -8,20 +8,23 @@
     #Propositions de ce que le joueur peut faire 
 
 #Choix du joueur(min,max)
-#Boucle infinie
-    #choix = Demander le choix de l'utilisateur
-        #Si choix < min ou choix > max
+    #Boucle infinie
+        #choix = Demander le choix de l'utilisateur
+            #Si choix is digit
+                #choix = int(choix)
+                #Si choix < min ou choix > max
+                    #Message d'erreur
+                #Sinon:
+                    #return choix
+                    #break
             #Message d'erreur
-        #Sinon
-            #return l'int choix
-    #break
 
 #Processus(choix):
     #Si choix == 1:
         #Sélection des personnages:
     #Si choix == 2:
         #Montrer le classement
-    #Si choix == 3:
+    #Sinon
         #Quitter le jeu
 
 #Sélection des personnages:
@@ -33,20 +36,25 @@
             #Le personnage est mis dans la liste équipe
             #Le personnage est retiré de la liste MongoDB
             #return équipe
-    #Début du jeu
+    #Début du jeu(equipe):
 
-#Début du jeu:
+#Début du jeu(team):
     #Initialisation de la wave
-    #Choix aléatoire de l'ennemi
+    #enemy = Choix aléatoire de l'ennemi
     #Tant que equipe en vie:
         #Si ennemi status est True
-            #Attaque des persos en vie
-            #Attaque du monstre
+            #Attaque
         #Si ennemi status est False
-            #Choix aléatoire de l'ennemi
-            #wave += 1
-            #ennemi status = True
-    #Losing screen
+            #Nouvel adversaire
+    #Losing screen(wave)
+
+#Nouvel adversaire:
+    #Choix aléatoire de l'ennemi
+    #wave += 1
+    #ennemi status = True
+
+#Losing screen(wave):
+    #Afficher message perdu avec le nombre de waves survécues
 
 #Ennemi status
     #Si HP enemy > 0
@@ -65,17 +73,15 @@
     #pour chaque joueurs en vie
     #HP monstre + DEF monstre - ATK Joueur
 
+#Attaque:
+    #Attaque du monstre
+    #Attaque des persos
 
 #Choix aléatoire de l'ennemi:
     #Générer un nombre aléatoire entre 1 et 10
     #ID du monstre <=> nbr aléatoire
     #Mettre le monstre dans une liste
 
-
-
-
-
-        
 
 
 
