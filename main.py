@@ -1,89 +1,97 @@
-#Main:
-#Impression du menu
-#Choix du joueur(1,3)
-#Debut du processus(choix)
+#Main():
+    #print_menu()
+    #player_choice(1,3)
+    #processus(choix)
 
-#Impression du menu:
-    #Nom du jeu
-    #Propositions de ce que le joueur peut faire 
+#print_menu():
+    #texte1 = Nom du jeu
+    #texte2 = Propositions de ce que le joueur peut faire 
+    #center(texte)
 
-#Choix du joueur(min,max)
+#center(texte):
+    #Imprimer 20 * "="
+    #Imprimer texte.center(20)
+    #Imprimer 20 * "="
+
+#player_choice(min,max)
     #Boucle infinie
         #choix = Demander le choix de l'utilisateur
-            #Si choix is digit
-                #choix = int(choix)
-                #Si choix < min ou choix > max
-                    #Message d'erreur
-                #Sinon:
-                    #return choix
-                    #break
-            #Message d'erreur
+        #verify_player_choice(choice,min,max)
 
-#Processus(choix):
+#verify_player_choice(choice,min,max)
+    #Boucle infinie
+        #Si choix is digit
+            #choix = int(choix)
+            #Si choix < min ou choix > max
+                #Message d'erreur
+            #Sinon:
+                #return choix
+        #Message d'erreur
+
+#processus(choix):
     #Si choix == 1:
-        #Sélection des personnages:
+        #select_character():
     #Si choix == 2:
-        #Montrer le classement
+        #Montrer le classement()
     #Sinon
-        #Quitter le jeu
+        #Quitter le jeu()
 
-#Sélection des personnages:
-    #Récupérer la BD de personnages de MongoDB et la mettre sous forme de liste
+#select_character():
     #Initialiser une liste équipe
+    #get_characters()*
     #Tant que mon équipe n'a pas 3 membres
-        #Montrer la liste de personnages*
-        #L'utilisateur choisit son personnage*
-            #Le personnage est mis dans la liste équipe
-            #Le personnage est retiré de la liste MongoDB
-            #return équipe
-    #Début du jeu(equipe):
+        #show_character_list()*
+        #user_champ_select()*
+    #return équipe
+    #start_game():
 
-#Début du jeu(team):
+#start_game():
     #Initialisation de la wave
-    #enemy = Choix aléatoire de l'ennemi
-    #Tant que equipe en vie:
-        #Si ennemi status est True
-            #Attaque
-        #Si ennemi status est False
-            #Nouvel adversaire
-    #Losing screen(wave)
+    #enemy = Choix aléatoire de l'ennemi()
+    #start_wave():
 
-#Nouvel adversaire:
-    #Choix aléatoire de l'ennemi
+#start_wave():
+    #Tant que is_team_alive():
+        #Si enemy_status() est True
+            #attack()
+        #Sinon
+            #new_opponent(wave)
+    #Losing screen()
+
+#new_opponent(wave):
+    #random_enemy()
     #wave += 1
-    #ennemi status = True
+    #return wave
+    #enemy_status() = True
 
 #Losing screen(wave):
     #Afficher message perdu avec le nombre de waves survécues
 
-#Ennemi status
+#enemy_status():
     #Si HP enemy > 0
         #return True
     #return False
 
-#Joueurs en vie(équipe):
+#player_alive(équipe):
     #Pour chaque personnages de équipe
         #si HP du perso > 0
+            #...
 
-#Attaque du monstre:
+#is_team_alive():
+
+#monster_attack():
     #Choisir un joueur aléatoire en vie dans l'équipe
     #HP joueur + DEF joueur - atk monstre 
 
-#Attaque des persos:
+#character_attack():
     #pour chaque joueurs en vie
     #HP monstre + DEF monstre - ATK Joueur
 
-#Attaque:
-    #Attaque du monstre
-    #Attaque des persos
+#attack():
+    #monster_attack()
+    #character_attack()
 
-#Choix aléatoire de l'ennemi:
+#random_enemy():
     #Générer un nombre aléatoire entre 1 et 10
     #ID du monstre <=> nbr aléatoire
     #Mettre le monstre dans une liste
-
-
-
-
-
-
