@@ -1,4 +1,4 @@
-#Main():
+#main():
     #print_menu()
     #player_choice(1,3)
     #processus(choix)
@@ -14,9 +14,8 @@
     #Imprimer 20 * "="
 
 #player_choice(min,max)
-    #Boucle infinie
-        #choix = Demander le choix de l'utilisateur
-        #verify_player_choice(choice,min,max)
+    #choix = Demander le choix de l'utilisateur
+    #verify_player_choice(choice,min,max)
 
 #verify_player_choice(choice,min,max)
     #Boucle infinie
@@ -46,22 +45,21 @@
     #start_game():
 
 #start_game():
-    #Initialisation de la wave
-    #enemy = Choix aléatoire de l'ennemi()
+    #enemy = new_opponent()
     #start_wave():
 
 #start_wave():
+    #wave = 0
     #Tant que is_team_alive():
         #Si enemy_status() est True
             #attack()
         #Sinon
-            #new_opponent(wave)
+            #new_opponent()
+            #wave += 1
     #Losing screen()
 
 #new_opponent(wave):
     #random_enemy()
-    #wave += 1
-    #return wave
     #enemy_status() = True
 
 #Losing screen(wave):
@@ -72,26 +70,51 @@
         #return True
     #return False
 
-#player_alive(équipe):
+#is_player_alive(équipe):
     #Pour chaque personnages de équipe
         #si HP du perso > 0
             #...
 
 #is_team_alive():
+    #...
 
 #monster_attack():
-    #Choisir un joueur aléatoire en vie dans l'équipe
+    #random_character()
     #HP joueur + DEF joueur - atk monstre 
 
 #character_attack():
-    #pour chaque joueurs en vie
-    #HP monstre + DEF monstre - ATK Joueur
+    #pour chaque is_player_alive():
+        #HP monstre + DEF monstre - ATK Joueur
 
 #attack():
     #monster_attack()
     #character_attack()
 
 #random_enemy():
-    #Générer un nombre aléatoire entre 1 et 10
+    #random_number(min,max)
     #ID du monstre <=> nbr aléatoire
-    #Mettre le monstre dans une liste
+    #Mettre le monstre choisi dans une liste
+
+#random_character()
+    #random_number(min,max)
+    #ID du joueur <=> nbr aléatoire
+
+#get_characters():
+    #...
+
+#show_character_list():
+    #Prendre tout les characters depuis MongoDB
+    #Afficher les caractéristiques séparément
+
+#user_champ_select(equipe):
+    #choix = Demander quel perso choisir
+    #verify_player_choice(choix, 1, 10)
+    #add_character(choix)
+
+#add_character(choix)
+    #.find le choix
+    #le append à equipe
+    #supprimer le choix de la liste des personnages
+
+#random_number(min,max)
+    #random.randint(min,max)
