@@ -21,7 +21,7 @@ def center(texte):
 
 def player_choice(min, max):
     while True:
-        choix = f"Quelle action voulez-vous faire ? (Choisir entre {min} et {max})"
+        choix = input(f"Quelle action voulez-vous faire ? (Choisir entre {min} et {max})")
         if verify_player_choice(choix, min, max) is True:
             return int(choix)
         print('Erreur')
@@ -36,8 +36,8 @@ def verify_player_choice(choix, min, max):
 
 def processus(choix):
     if choix == 1:
-        equipe = select_character()
-        start_wave(equipe)
+        team = select_character()
+        start_wave(team)
     elif choix == 2:
         print('Classement')
     else:
@@ -51,30 +51,16 @@ def select_character():
         user_champ_select(team, available_characters)
     return team
 
-#select_character():
-    #Initialiser une liste équipe
-    #available_characters = get_characters()
-    #Tant que mon équipe n'a pas 3 membres
-        #show_character_list(available_characters)
-        #user_champ_select(equipe, available_characters)
-    #return équipe
-
-def start_wave(equipe):
+def start_wave(team):
     wave = 0
     enemy = new_opponent()
-    handle_wave(equipe, wave)
+    handle_wave(team, wave, enemy)
     losing_screen(wave)
 
-#start_wave(equipe):
-    #wave = 0
-    #enemy = new_opponent()
-    #handle_wave(equipe,wave)
-    #Losing screen(wave)
-
-def handle_wave(team, wave):
-    while is_team_alive(equipe):
+def handle_wave(team, wave, enemy):
+    while is_team_alive(team):
         if is_enemy_alive(enemy):
-            attack(equipe, enemy)
+            attack(team, enemy)
         else:
             wave += 1
             enemy = new_opponent()
@@ -83,34 +69,13 @@ def new_opponent():
     enemy = random_enemy()
     return enemy
 
-#handle_wave(equipe,wave):
-    #Tant que is_team_alive(equipe):
-        #Si is_enemy_alive(enemy) 
-            #attack(equipe, enemy)
-        #Sinon
-            #wave += 1
-            #enemy = new_opponent()
-
-#new_opponent():
-    #enemy = random_enemy()
-    #Renvoyer enemy
-
 def losing_screen(wave):
     print(f'Vous avez perdu ! Vous avez survécu {wave} manches !')
 
-#Losing screen(wave):
-    #Afficher message perdu avec le nombre de waves survécues
-
-#is_enemy_alive(enemy):
-    #Si HP enemy > 0
-        #return True
-    #return False
-
-#is_team_alive(equipe):
-    #Pour chaque perso de equipe
-        #Si HP > 0
-            #Renvoyer True
-    #Renvoyer False
+def is_enemy_alive(enemy):
+    if enemy['hp'] > 0:
+        return True
+    return False
 
 def is_team_alive(team):
     for character in team:
@@ -121,41 +86,47 @@ def is_team_alive(team):
 def is_alive(character):
     return character['hp'] > 0
 
-#monster_attack(equipe, enemy):
-    #vivants = get_alive_characters(equipe)
-    #cible = random_character(vivants)
-    #enemy_damage(cible, enemy)
+def monster_attack(team, enemy):
+    alive = get_alive_characters(team)
+    target = random_character(alive)
+    target_received_damage = target['hp'] - enemy_damage(target, enemy)
+    print_monster_damage(enemy, target, target_received_damage)
 
-#character_attack(equipe, enemy):
-    #vivants = get_alive_characters(equipe)
-    #pour chaque perso vivants
-        #character_damage(enemy, vivants)
+def character_attack(team, enemy):
+    alive = get_alive_characters(team)
+    for character in alive:
+        if is_enemy_alive(enemy):
+            enemy_received_damage =  character_damage(enemy, alive)
+            print_character_damage(character, enemy, enemy_received_damage)
 
-#attack(team,enemy):
-    #characters_attack(team, enemy)
-    #if is_enemy_alive(enemy):
-        #monster_attack(team,enemy)
+def attack(team, enemy):
+    character_attack(team, enemy)
+    if is_enemy_alive(enemy):
+        monster_attack(team, enemy)
 
-#random_enemy():
-    #Générer un nombre aléatoire
-    #ID du monstre <=> nbr aléatoire
-    #Renvoyer le monstre
+def print_monster_damage(enemy, target, target_received_damage):
+    print(f'{enemy['name']} attaque {target['name']} et inflige {target_received_damage} dégâts.')
+    time.sleep(0.1)
+    print(f'{target['name']} a désormais {target['hp']} PV.')
+    time.sleep(0.5)
+
+def print_character_damage(character, enemy, enemy_received_damage):
+    print(f"{character['name']} attaque {enemy['name']} et inflige {enemy_received_damage} dégâts.")
+    time.sleep(0.1)
+    print(f'{enemy['name']} a désormais {enemy['hp']} PV.')
+    time.sleep(0.5)
+
+def attack(team, enemy):
+    character_attack(team, enemy)
 
 def random_enemy():
     random_number = random.randint(0, 9)
     find_enemy = db_init.database("enemy")
     random_number = find_enemy.find_one({'nb' : random_number})
 
-#random_character(vivants)
-    #Choisir un perso aléatoirement dans vivants
-    #Renvoyer le perso
-
-#get_alive_characters(equipe):
-    #personnage_vivants = []
-        #Pour chaque personnage de l'équipe 
-            #Si HP > 0 
-                #Append à personnage_vivants
-        #Renvoyer personnage_vivants
+def random_character(alive): 
+     chosen_character = random.choice(alive)
+     return chosen_character
 
 def get_alive_characters(team):
     alive_characters = []
@@ -168,39 +139,33 @@ def show_character_list(available_characters):
     for character in available_characters:
         print(f'NB : {character['nb']} NOM : {character['name']} | ATK : {character['atk']} | DEF : {character['def']} | PV : {character['hp']} ')
 
-#show_character_list(available_characters):
-    #Pour chaque perso dans available_characters
-        #Afficher les caractéristiques séparément
-
 def user_champ_select(team, available_characters):
     choix = player_choice(1, 9)
     add_character(choix, team, available_characters)
 
-#user_champ_select(equipe, available_characters):
-    #choix = player_choice(1, 9)
-    #add_character(choix, equipe, available_characters)
-
 def add_character(choix, team, available_character):
-    available_character = db_init.collection.find({'nb' : choix })
-    team.append(character)
-
-#add_character(choix, equipe, available_character)
-    #.find le choix
-    #le append à equipe
-    #supprimer le choix de la liste de available_character
+    user_choice = db_init.collection.find_one({'nb' : choix })
+    if user_choice:
+        team.append(user_choice)
+        if user_choice in available_character:
+            available_character.remove(user_choice)
+    print('Erreur')
 
 def get_characters():
     characters = db_init.database("characters")
     characters_list = list(characters)
     return characters_list
 
-#get_characters():
-    #recup les persos depuis MongoDB
-    #Mettre le résultat en liste
-    #Return le résultat
+def enemy_damage(target, enemy):
+    damage = enemy['atk'] - target['def']
+    if damage < 0:
+        damage = 0
+    return damage
 
-#character_damage(enemy, vivants)
-    #HP enemy + DEF enemy - ATK Joueur
+def character_damage(enemy, alive):
+    damage = alive['atk'] - enemy['def']
+    if damage < 0:
+        damage = 0
+    return damage
 
-#enemy_damage(cible, enemy)
-    #HP cible + DEF cible - ATK enemy
+main()
