@@ -137,14 +137,14 @@ def get_alive_characters(team):
 
 def show_character_list(available_characters):
     for character in available_characters:
-        print(f'NB : {character['nb']} NOM : {character['name']} | ATK : {character['atk']} | DEF : {character['def']} | PV : {character['hp']} ')
+        print(f'NB : {character['nb']} | NOM : {character['name']} | ATK : {character['atk']} | DEF : {character['def']} | PV : {character['hp']} ')
 
 def user_champ_select(team, available_characters):
-    choix = player_choice(1, 9)
+    choix = player_choice(1, 10)
     add_character(choix, team, available_characters)
 
 def add_character(choix, team, available_character):
-    user_choice = db_init.collection.find_one({'nb' : choix })
+    user_choice = db_init.database('characters').find({'nb' : choix })
     if user_choice:
         team.append(user_choice)
         if user_choice in available_character:
@@ -152,7 +152,8 @@ def add_character(choix, team, available_character):
     print('Erreur')
 
 def get_characters():
-    characters = db_init.database("characters")
+    characters_collection = db_init.database("characters")
+    characters = characters_collection.find()
     characters_list = list(characters)
     return characters_list
 
