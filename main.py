@@ -1,13 +1,30 @@
+def main():
+    print_menu()
+    choix = player_choice(1, 3)
+    processus(choix)
+
 #main():
     #print_menu()
     #choix = player_choice(1,3)
     #processus(choix)
+
+def print_menu():
+    texte1 = "JEU TRES COOL"
+    center(texte1)
+    print('1. Démarrer une partie')
+    print('2. Voir le classement')
+    print('3. Quitter')
 
 #print_menu():
     #texte1 = Nom du jeu
     #texte2 = Propositions de ce que le joueur peut faire 
     #center les textes
 
+def center(texte):
+    print('=' * 20)
+    print(texte.center(20))
+    print('=' * 20)
+    
 #center(texte):
     #Imprimer 20 * "="
     #Imprimer texte.center(20)
@@ -31,7 +48,7 @@
 #processus(choix):
     #Si choix == 1:
         #equipe = select_character():
-        #start_game(equipe)
+        #start_wave(equipe)
     #Si choix == 2:
         #Montrer le classement()
     #Sinon
@@ -45,16 +62,13 @@
         #user_champ_select(equipe, available_characters)
     #return équipe
 
-#start_game(equipe):
-    #start_wave(equipe) 
-
 #start_wave(equipe):
     #wave = 0
     #enemy = new_opponent()
-    #fight(equipe,wave)
+    #handle_wave(equipe,wave)
     #Losing screen(wave)
 
-#fight(equipe,wave):
+#handle_wave(equipe,wave):
     #Tant que is_team_alive(equipe):
         #Si is_enemy_alive(enemy) 
             #attack(equipe, enemy)
@@ -74,7 +88,6 @@
         #return True
     #return False
 
-
 #is_team_alive(equipe):
     #Pour chaque perso de equipe
         #Si HP > 0
@@ -84,15 +97,15 @@
 #monster_attack(equipe, enemy):
     #vivants = get_alive_characters(equipe)
     #cible = random_character(vivants)
-    #HP cible + DEF cible - atk monstre 
+    #enemy_damage(cible, enemy)
 
 #character_attack(equipe, enemy):
     #vivants = get_alive_characters(equipe)
     #pour chaque perso vivants
-        #HP monstre + DEF monstre - ATK Joueur
+        #character_damage(enemy, vivants)
 
 #attack(team,enemy):
-    #character_attack(team, enemy)
+    #characters_attack(team, enemy)
     #if is_enemy_alive(enemy):
         #monster_attack(team,enemy)
 
@@ -126,7 +139,12 @@
     #supprimer le choix de la liste de available_character
 
 #get_characters():
-    #Recuperer les persos depuis MongoDB
+    #recup les persos depuis MongoDB
     #Mettre le résultat en liste
     #Return le résultat
 
+#character_damage(enemy, vivants)
+    #HP enemy + DEF enemy - ATK Joueur
+
+#enemy_damage(cible, enemy)
+    #HP cible + DEF cible - ATK enemy
